@@ -15,7 +15,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import himasriPortrait from "@/assets/himasri-portrait.png";
 import birthdayStillLife from "@/assets/birthday-still-life.jpg";
 import birthdayAudio from "@/assets/audio/amiba-hindi-x-tamil.mp4";
 
@@ -212,8 +211,8 @@ function Index() {
 
       <header className="birthday-nav">
         <a href="#welcome" className="birthday-brand">
-          <span className="birthday-brand__mark">H</span>
-          <span>for Himasri</span>
+          <span className="birthday-brand__mark">✦</span>
+          <span>A little birthday letter · for Himasri</span>
         </a>
         <button className="birthday-audio-control" type="button" onClick={toggleAudio} aria-label={muted ? "Turn birthday music on" : "Mute birthday music"} disabled={!hasEntered}>
           {muted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}
@@ -233,8 +232,7 @@ function Index() {
       >
         <div className="birthday-hero__glow" aria-hidden="true" />
         <div className="birthday-hero__content">
-          <p className="birthday-eyebrow"><span className="birthday-eyebrow__line" /> A page made just for you</p>
-          <p className="birthday-hero__date">NOVEMBER 23 · A DAY WORTH REMEMBERING</p>
+          <p className="birthday-eyebrow"><span className="birthday-eyebrow__line" /> Today is all about you</p>
           <h1 id="birthday-heading">Happy birthday, <span>Himasri.</span></h1>
           <p className="birthday-hero__message">
             Today, the calendar has one job: to remind you how much light you carry into the lives around you.
@@ -242,13 +240,6 @@ function Index() {
           <Button variant="birthday" size="lg" className="birthday-cta" onClick={() => document.getElementById("story")?.scrollIntoView({ behavior: "smooth" })}>
             Start the little story <ArrowDown aria-hidden="true" />
           </Button>
-        </div>
-        <div className="birthday-hero__portrait">
-          <div className="birthday-hero__image-frame">
-            <img src={himasriPortrait} alt="Himasri smiling in a blue and green sari." />
-          </div>
-          <span className="birthday-hero__stamp">A day<br /><strong>for you</strong></span>
-          <p><Heart aria-hidden="true" /> made with a wholehearted kind of care</p>
         </div>
       </section>
 

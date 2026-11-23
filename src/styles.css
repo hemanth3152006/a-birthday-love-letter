@@ -857,6 +857,74 @@
   animation: birthday-intro-in 500ms ease both;
 }
 
+.birthday-disclaimer {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 50% 25%, oklch(0.35 0.1 155 / 55%), transparent 24rem),
+    oklch(0.08 0.035 155 / 92%);
+  backdrop-filter: blur(14px);
+  animation: birthday-intro-in 350ms ease both;
+}
+
+.birthday-disclaimer__card {
+  width: min(100%, 470px);
+  padding: clamp(2rem, 6vw, 3.25rem);
+  border: 1px solid oklch(0.98 0.015 82 / 18%);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, oklch(0.98 0.015 82 / 12%), oklch(0.98 0.015 82 / 5%));
+  box-shadow: 0 28px 70px oklch(0.04 0.025 155 / 50%);
+  color: var(--birthday-inverse);
+  text-align: center;
+  backdrop-filter: blur(18px);
+  animation: birthday-intro-card-in 500ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.birthday-disclaimer__icon {
+  display: grid;
+  width: 3.7rem;
+  height: 3.7rem;
+  margin: 0 auto 1.35rem;
+  place-items: center;
+  border: 1px solid oklch(0.78 0.13 78 / 45%);
+  border-radius: 50%;
+  color: var(--birthday-accent);
+  background: oklch(0.51 0.16 14 / 16%);
+}
+
+.birthday-disclaimer__icon svg { width: 1.35rem; }
+.birthday-disclaimer__eyebrow {
+  margin: 0 0 0.65rem;
+  color: var(--birthday-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.birthday-disclaimer h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 7vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1;
+}
+.birthday-disclaimer__message,
+.birthday-disclaimer__mobile {
+  color: oklch(0.95 0.02 82 / 78%);
+  line-height: 1.65;
+}
+.birthday-disclaimer__message { margin: 1.1rem 0 0.75rem; }
+.birthday-disclaimer__mobile {
+  margin: 0 0 1.4rem;
+  color: oklch(0.78 0.13 78 / 82%);
+  font-size: 0.82rem;
+}
+.birthday-disclaimer__button { margin-top: 0.4rem; }
+
 .birthday-intro::before,
 .birthday-intro::after {
   position: absolute;

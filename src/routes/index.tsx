@@ -14,6 +14,7 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import himasriPortrait from "@/assets/himasri-portrait.png";
 import birthdayStillLife from "@/assets/birthday-still-life.jpg";
 import birthdayAudio from "@/assets/audio/amiba-hindi-x-tamil.mp4";
@@ -73,6 +74,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [hasEntered, setHasEntered] = useState(false);
   const [muted, setMuted] = useState(false);
   const [chapter, setChapter] = useState(0);
@@ -83,13 +85,14 @@ function Index() {
   const letterSection = useRef<HTMLElement | null>(null);
   const celebrationTimer = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    document.body.style.overflow = hasEntered ? "" : "hidden";
+    document.body.style.overflow = showDisclaimer || !hasEntered ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [hasEntered]);
+  }, [showDisclaimer, hasEntered]);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = 0.12;
@@ -150,6 +153,33 @@ function Index() {
   return (
     <main className="birthday-page">
       <audio ref={audioRef} src={birthdayAudio} loop preload="auto" />
+      {showDisclaimer && (
+        <div className="birthday-disclaimer" role="dialog" aria-modal="true" aria-labelledby="disclaimer-heading">
+          <div className="birthday-disclaimer__card">
+            <div className="birthday-disclaimer__icon" aria-hidden="true">
+              <Volume2 />
+            </div>
+            <p className="birthday-disclaimer__eyebrow">Before you begin</p>
+            <h1 id="disclaimer-heading">One little note</h1>
+            <p className="birthday-disclaimer__message">
+              Please reduce your device volume to a comfortable level. This experience is best felt on a laptop or large screen.
+            </p>
+            {isMobile && (
+              <p className="birthday-disclaimer__mobile">
+                You are on a smaller screen, but the story will still open beautifully.
+              </p>
+            )}
+            <Button
+              variant="birthday"
+              size="lg"
+              className="birthday-disclaimer__button"
+              onClick={() => setShowDisclaimer(false)}
+            >
+              I understand <Sparkles aria-hidden="true" />
+            </Button>
+          </div>
+        </div>
+      )}
       {!hasEntered && (
         <div className="birthday-intro" role="dialog" aria-modal="true" aria-labelledby="intro-heading">
           <div className="birthday-intro__decor birthday-intro__decor--hearts" aria-hidden="true">

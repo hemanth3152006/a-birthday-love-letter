@@ -8,6 +8,11 @@
 // hosting already compresses at the edge.
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { loadEnv } from "vite";
+
+const localEnv = loadEnv("development", process.cwd(), "");
+process.env.SUPABASE_URL ||= localEnv.SUPABASE_URL ?? "";
+process.env.SUPABASE_PUBLISHABLE_KEY ||= localEnv.SUPABASE_PUBLISHABLE_KEY ?? "";
 
 export default defineConfig({
   nitro: {

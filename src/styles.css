@@ -777,6 +777,25 @@
 .birthday-envelope { display: grid; width: min(100%, 310px); min-height: 185px; margin: 2.5rem auto 0; place-items: center; align-content: center; gap: 0.3rem; border: 1px solid var(--birthday-line); background: var(--birthday-paper-raised); box-shadow: var(--birthday-paper-shadow); color: var(--birthday-ink); cursor: pointer; transition: transform 250ms ease, box-shadow 250ms ease; }.birthday-envelope:hover { transform: translateY(-5px) rotate(-1deg); box-shadow: 0 25px 40px -25px var(--birthday-accent); }.birthday-envelope__seal { display: grid; width: 3.2rem; height: 3.2rem; margin-bottom: 0.5rem; place-items: center; border-radius: 50%; background: var(--birthday-accent); color: var(--birthday-contrast); }.birthday-envelope__seal svg { width: 1.2rem; }.birthday-envelope > span:not(.birthday-envelope__seal) { font-family: var(--font-display); font-size: 1.4rem; }.birthday-envelope small { color: var(--birthday-muted); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }.birthday-envelope.is-open { border-color: var(--birthday-accent); }
 .birthday-surprise { text-align: center; }.birthday-surprise__badge { display: grid; width: 3.5rem; height: 3.5rem; margin: 0 auto 1.5rem; place-items: center; border-radius: 50%; background: var(--birthday-accent); color: var(--birthday-contrast); }.birthday-surprise__badge svg { width: 1.5rem; }.birthday-surprise h2 { max-width: 760px; margin: auto; }.birthday-text-button { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.8rem; border: 0; border-bottom: 1px solid var(--birthday-accent); padding: 0 0 0.3rem; background: transparent; color: var(--birthday-accent); font-weight: 600; cursor: pointer; }.birthday-text-button svg { width: 1rem; }
 .birthday-wish--new { padding-top: 7rem; }
+.birthday-feedback { padding: clamp(3.5rem, 7vw, 5.5rem) 1.5rem; background: var(--birthday-paper-fold); text-align: center; }
+.birthday-feedback h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 500; }
+.birthday-feedback__choices { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-top: 1.6rem; }
+.birthday-feedback__form { display: grid; width: min(100%, 34rem); justify-items: center; gap: 0.75rem; margin: 1.5rem auto 0; }
+.birthday-feedback__form label { justify-self: start; color: var(--birthday-ink); font-size: 0.9rem; font-weight: 600; }
+.birthday-feedback__form textarea { width: 100%; min-height: 7rem; resize: vertical; border: 1px solid var(--birthday-line); padding: 0.9rem 1rem; background: var(--birthday-paper); color: var(--birthday-ink); font: inherit; line-height: 1.5; }
+.birthday-feedback__form textarea:focus-visible { outline: 2px solid var(--birthday-accent); outline-offset: 2px; }
+.birthday-feedback__form textarea:disabled { opacity: 0.7; }
+.birthday-feedback__hint { justify-self: start; margin: 0; color: var(--birthday-muted); font-size: 0.8rem; }
+.birthday-feedback__button { display: inline-flex; min-height: 2.9rem; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid var(--birthday-accent); padding: 0.7rem 1.2rem; background: var(--birthday-accent); color: var(--birthday-contrast); font: inherit; font-weight: 600; cursor: pointer; transition: background 180ms ease, color 180ms ease; }
+.birthday-feedback__button:hover, .birthday-feedback__button:focus-visible { background: var(--birthday-forest); color: var(--birthday-inverse); }
+.birthday-feedback__button:focus-visible { outline: 2px solid var(--birthday-forest); outline-offset: 3px; }
+.birthday-feedback__button--quiet { background: transparent; color: var(--birthday-ink); }
+.birthday-feedback__button--quiet:hover, .birthday-feedback__button--quiet:focus-visible { color: var(--birthday-inverse); }
+.birthday-feedback__button[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--birthday-paper-fold), 0 0 0 4px var(--birthday-accent); }
+.birthday-feedback__button:disabled { cursor: not-allowed; opacity: 0.55; }
+.birthday-feedback__button svg { width: 1rem; height: 1rem; }
+.birthday-feedback__response { margin: 1.2rem 0 0; color: var(--birthday-forest); font-weight: 600; }
+.birthday-feedback__error { margin: 1.2rem 0 0; color: #a12e2e; font-weight: 600; }
 .birthday-footer a { color: inherit; }
 @media (max-width: 800px) {
   .birthday-nav__note { display: none; }

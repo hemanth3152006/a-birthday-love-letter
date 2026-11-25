@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   ArrowDown,
   ArrowLeft,
@@ -12,11 +12,13 @@ import {
   VolumeX,
 } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import birthdayStillLife from "@/assets/birthday-still-life.jpg";
 import birthdayAudio from "@/assets/audio/amiba-hindi-x-tamil.mp4";
+import { sendWebsiteFeedback } from "@/lib/feedback";
 
 const chapters = [
   {
@@ -80,11 +82,16 @@ function Index() {
   const [candlesLit, setCandlesLit] = useState(true);
   const [letterOpen, setLetterOpen] = useState(false);
   const [celebrating, setCelebrating] = useState(false);
+  const [websiteFeedback, setWebsiteFeedback] = useState<"yes" | "not-yet" | null>(null);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackSubmission, setFeedbackSubmission] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [feedbackError, setFeedbackError] = useState("");
   const [compliment, setCompliment] = useState("You are allowed to take up every beautiful space meant for you.");
   const letterSection = useRef<HTMLElement | null>(null);
   const celebrationTimer = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isMobile = useIsMobile();
+  const sendFeedback = useServerFn(sendWebsiteFeedback);
 
   useEffect(() => {
     document.body.style.overflow = showDisclaimer || !hasEntered ? "hidden" : "";
@@ -147,6 +154,26 @@ function Index() {
       "I hope you see yourself through the eyes of everyone who admires you.",
     ];
     setCompliment(messages[Math.floor(Math.random() * messages.length)]);
+  };
+
+  const submitWebsiteFeedback = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!websiteFeedback) {
+      setFeedbackError("Please choose an answer first.");
+      setFeedbackSubmission("error");
+      return;
+    }
+
+    setFeedbackSubmission("sending");
+    setFeedbackError("");
+    try {
+      await sendFeedback({ data: { answer: websiteFeedback, message: feedbackMessage } });
+      setFeedbackSubmission("sent");
+    } catch (error) {
+      console.error("Could not save website feedback.", error);
+      setFeedbackError("Your response could not be saved right now. Please try again later.");
+      setFeedbackSubmission("error");
+    }
   };
 
   return (
@@ -351,6 +378,64 @@ function Index() {
         <h2 id="wish-heading">Keep becoming, <span>Himasri.</span></h2>
         <p className="birthday-wish__closing">Happy birthday to someone wonderfully, unmistakably you.</p>
         <Heart className="birthday-wish__heart" aria-hidden="true" />
+      </section>
+
+      <section className="birthday-feedback" aria-labelledby="feedback-heading">
+        <p className="birthday-eyebrow birthday-eyebrow--dark">Before you go</p>
+        <h2 id="feedback-heading">Do you like this website?</h2>
+        <div className="birthday-feedback__choices">
+          <button
+            className="birthday-feedback__button"
+            type="button"
+            aria-pressed={websiteFeedback === "yes"}
+            onClick={() => {
+              setWebsiteFeedback("yes");
+              setFeedbackSubmission("idle");
+              setFeedbackError("");
+            }}
+          >
+            Yes, I do! <Heart aria-hidden="true" />
+          </button>
+          <button
+            className="birthday-feedback__button birthday-feedback__button--quiet"
+            type="button"
+            aria-pressed={websiteFeedback === "not-yet"}
+            onClick={() => {
+              setWebsiteFeedback("not-yet");
+              setFeedbackSubmission("idle");
+              setFeedbackError("");
+            }}
+          >
+            It could be better
+          </button>
+        </div>
+        <form className="birthday-feedback__form" onSubmit={submitWebsiteFeedback}>
+          <label htmlFor="birthday-feedback-message">Write a little something</label>
+          <textarea
+            id="birthday-feedback-message"
+            name="message"
+            value={feedbackMessage}
+            onChange={(event) => setFeedbackMessage(event.target.value)}
+            maxLength={2000}
+            placeholder="Type your thoughts here..."
+            required
+            disabled={feedbackSubmission === "sending" || feedbackSubmission === "sent"}
+          />
+          <p className="birthday-feedback__hint">Choose an answer and type a message before sending.</p>
+          <button
+            className="birthday-feedback__button"
+            type="submit"
+            disabled={feedbackSubmission === "sending" || feedbackSubmission === "sent"}
+          >
+            {feedbackSubmission === "sending" ? "Saving..." : "Submit your response"}
+          </button>
+          {feedbackSubmission === "sent" && (
+            <p className="birthday-feedback__response" role="status">Thank you! Your response has been saved.</p>
+          )}
+          {feedbackSubmission === "error" && (
+            <p className="birthday-feedback__error" role="alert">{feedbackError}</p>
+          )}
+        </form>
       </section>
 
       <footer className="birthday-footer"><span>A small universe for Himasri</span><span>with love, Hemanth · <a href="#welcome">back to the beginning ↑</a></span></footer>
